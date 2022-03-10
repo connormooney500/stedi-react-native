@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, SafeAreaView, TextInput, Text, View, Image, TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Counter from './Counter.js';
@@ -9,19 +9,13 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Login from './Login.js';
-import {Button} from 'react-native'
-import{SetUserLoggedIn} from './App.js'
-import {SafeAreaView} from '/Login.js'
-
+import { Card, ListItem, Button, Icon } from 'react-native-elements';
+import {onChangephoneNumber, phoneNumber, onChangeOTP, OTP} from './Login.js'
 // import Icons from "./Icons";
 const Tab = createMaterialBottomTabNavigator();
-
 export default function App() {
-  
   const [userLoggedIn, setUserLoggedIn] = useState(false);
-  
   if(userLoggedIn){
-    console.log("User Logged In: "+userLoggedIn)
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -55,36 +49,25 @@ export default function App() {
           options={{
             tabBarLabel: 'Settings',
             tabBarIcon: ({ color }) => (
-              <FontAwesome name='gear' color={color} size={26} />
-            ),
-          }}
-        />
-        <Tab.Screen
-          name='Login'
-          component={Login}
-          options={{
-            tabBarLabel: 'Login',
-            tabBarIcon: ({ color }) => (
-              <MaterialCommunityIcons name='Clock' color={color} size={26} />
+              <FontAwesome name='gear' color={color} size={26}/>
             ),
           }}
         />
       </Tab.Navigator>
     </NavigationContainer>
   );
-
-
 }
-else {
+  else {
   return (
-  <SafeAreaView>
-  <View>
-    <Text>This is the Login Screen </Text>
-     <Button title="Log In" onPress={()=>props.SetUserLoggedIn(true)}></Button>
-  </View>
-  </SafeAreaView>)
+    <Login setUserLoggedIn={setUserLoggedIn}/>
+  )
 }
 }
 const styles = StyleSheet.create({
-  
-});
+  input: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+  },
+});;

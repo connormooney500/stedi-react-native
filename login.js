@@ -30,7 +30,7 @@ export default function Login(props) {
       <View>
       <Button
       title="Login"
-      onPress={() => fetch('https://dev.stedi.me/twofactorlogin', {
+      onPress={() => fetch('https://dev.stedi.me/twofactorlogin'+usertoken, {
         method: 'POST',
         body: JSON.stringify({
           phoneNumber: phoneNumber,
