@@ -1,10 +1,8 @@
 import { useLinkProps } from "@react-navigation/native";
 import React from "react";
-import { Text, View, Image } from 'react-native';
+import { Text, View, Image, Alert} from 'react-native';
 import { SafeAreaView, StyleSheet, TextInput } from "react-native";
 import { Card, ListItem, Button, Icon } from 'react-native-elements';
-
-
 export default function Login(props) {
   const [phoneNumber, onChangephoneNumber] = React.useState(null);
   const [OTP, onChangeOTP] = React.useState(null);
@@ -30,14 +28,27 @@ export default function Login(props) {
       <View>
       <Button
       title="Login"
-      onPress={() => fetch('https://dev.stedi.me/twofactorlogin'+usertoken, {
+      async onPress={() => fetch('https://dev.stedi.me/twofactorlogin', {
         method: 'POST',
         body: JSON.stringify({
           phoneNumber: phoneNumber,
           oneTimePassword: OTP}),
       })
-      .then(()=> props.setUserLoggedIn(true))
-      }>
+      .then((response) => {
+      if(response.status==200)
+      {const token = response.text()
+        return token
+      }
+      else{(Alert.alert("Unable to Login"))}
+    })
+    .then((token) => {fetch('https://dev.stedi.me/validate/'+token)
+      .then((reponse) => {
+        reponse.text().then(function(email)
+        {props.setUserEmail(email);
+         props.setUserLoggedIn(true)})
+      })
+    })
+    }>
       </Button>
       </View>
     </SafeAreaView>
@@ -51,8 +62,6 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 });;
-
-
 
 
 

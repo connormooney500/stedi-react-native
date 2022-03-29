@@ -15,6 +15,7 @@ import {onChangephoneNumber, phoneNumber, onChangeOTP, OTP} from './Login.js'
 const Tab = createMaterialBottomTabNavigator();
 export default function App() {
   const [userLoggedIn, setUserLoggedIn] = useState(false);
+  const [userEmail, setUserEmail] = useState(false);
   if(userLoggedIn){
   return (
     <NavigationContainer>
@@ -23,9 +24,9 @@ export default function App() {
         activeColor='white'
         barStyle={{ backgroundColor: 'green' }}
       >
-        <Tab.Screen
+         <Tab.Screen
           name='Home'
-          component={Home}
+          children={()=><Home userEmail={userEmail} />}
           options={{
             tabBarLabel: 'Home',
             tabBarIcon: ({ color }) => (
@@ -45,7 +46,8 @@ export default function App() {
         />
         <Tab.Screen
           name='Settings'
-          component={SettingsScreen}
+          //component={SettingsScreen}
+          children={() => <HomeScreen userEmail= {userEmail}/>}
           options={{
             tabBarLabel: 'Settings',
             tabBarIcon: ({ color }) => (
@@ -59,7 +61,8 @@ export default function App() {
 }
   else {
   return (
-    <Login setUserLoggedIn={setUserLoggedIn}/>
+    <Login setUserLoggedIn={setUserLoggedIn}
+    setUserEmail={setUserEmail}/>
   )
 }
 }
